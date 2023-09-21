@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const userRouter = require("../modules/users/user.api");
+const userRouter = require("../modules/users/user.route");
 
 router.get("/", (req, res, next) => {
   res.json({ data: "", msg: "Welcome to our Gadget Galaxy" });
