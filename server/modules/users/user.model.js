@@ -12,6 +12,7 @@ const userSchema = new Schema({
     required: "Email address is required",
     validate: [validateEmail, "Please fill a valid email address"],
   },
+
   password: {
     type: String,
     required: true,
