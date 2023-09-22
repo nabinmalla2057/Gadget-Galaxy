@@ -21,4 +21,15 @@ router.get("/login", async (req, res, next) => {
   }
 });
 
+router.get("/verify", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) throw new Error("Email or Token is missing");
+    const result = await Controller.login(email, token);
+    res.json({ data: result, msg: "success" });
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;
