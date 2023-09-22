@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const userModel = require("../users/user.userModel");
+const userModel = require("../users/user.model");
 
 const create = async (payload) => {
   const { password, ...rest } = payload;
@@ -9,9 +9,13 @@ const create = async (payload) => {
   return userModel.create(rest);
 };
 const login = async (email, password) => {
-  const isValidUser = await userModel.findOne({ email });
-  if (!isValidUser) throw new Error("User not Found");
-  const isValid = await bcrypt.compare(password, isValidUser.password);
+  const user = await userModel.findOne({ email });
+  if (!user) throw new Error("User not Found");
+  if (!user.isActive)
+    throw new Error("User is not approved.Please contact Admin");
+  if (!user.isEmailVerified)
+    throw new Error("Email isnot verified. Verify your email");
+  const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) throw new Error("Email or Password is invalid");
   return true;
 };
